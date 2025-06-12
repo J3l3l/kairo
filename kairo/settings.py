@@ -71,10 +71,7 @@ ASGI_APPLICATION = 'kairo.asgi.application'
 
 # Database
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL', 'postgres://postgres:postgres@localhost:5432/kairo'),
-        conn_max_age=600
-    )
+    'default': dj_database_url.config(default='sqlite:///db.sqlite3', conn_max_age=600)
 }
 
 # Password validation
