@@ -17,3 +17,4 @@ whitenoise==6.5.0
 django-storages==1.14.2
 boto3==1.28.64
 dj-database-url==2.1.0
+pytest==8.3.5
