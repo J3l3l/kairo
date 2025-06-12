@@ -100,13 +100,17 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def who_viewed_me(self, request):
+        profile_views_qs = request.user.views_received.all()
+
         if not request.user.is_premium:
             # For free users, show only 2 random viewers
-            viewers = request.user.profile_views.all()[:2]
+            profile_views_qs = profile_views_qs.order_by('?')[:2]
         else:
             # For premium users, show all viewers
-            viewers = request.user.profile_views.all()
-        serializer = self.get_serializer(viewers, many=True)
+            profile_views_qs = profile_views_qs.order_by('-created_at')
+
+        viewers = [pv.viewer for pv in profile_views_qs]
+        serializer = UserSerializer(viewers, many=True)
         return Response(serializer.data)
 
 class CustomTokenObtainPairView(TokenObtainPairView):
